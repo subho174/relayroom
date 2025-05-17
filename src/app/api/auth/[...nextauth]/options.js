@@ -25,7 +25,9 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
         isLoggingIn: { type: Boolean },
       },
-      async authorize({ username, email, password, isLoggingIn, callbackUrl }) {
+      async authorize({ username, email, password, isLoggingIn
+        // , callbackUrl 
+      }) {
         await connectDB();
         console.log(username, email, password, typeof password, isLoggingIn);
         try {
@@ -56,7 +58,9 @@ export const authOptions = {
   ],
   callbacks: {
     // TODO: Test Sign Up feature with providers
-    async signIn({ user, account, profile, email, credentials }) {
+    async signIn({ user,
+       // account, profile, email, credentials 
+      }) {
       await connectDB();
       try {
         const cookieStore = await cookies();
@@ -82,14 +86,18 @@ export const authOptions = {
     // async redirect({ url, baseUrl }) {
     //   return baseUrl;
     // },
-    async session({ session, user, token }) {
+    async session({ session,token
+      //  user
+     }) {
       if (token) {
         session.user._id = token._id;
         session.user.username = token.username;
       }
       return session;
     },
-    async jwt({ token, user, account, profile, isNewUser }) {
+    async jwt({ token, user,
+       // account, profile, isNewUser
+      }) {
       if (user) {
         token._id = user._id?.toString();
         token.username = user.username;
