@@ -118,6 +118,7 @@ import dotenv from "dotenv";
 import {getToken} from "next-auth/jwt"; // or use custom JWT verify
 
 dotenv.config();
+const PORT = process.env.PORT || 10000;
 
 const httpServer = createServer();
 const io = new Server(httpServer, {
@@ -183,6 +184,6 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(4000, () => {
-  console.log("Socket server running on port 4000");
+httpServer.listen(PORT, () => {
+  console.log(`Socket server running on port ${PORT}`);
 });
