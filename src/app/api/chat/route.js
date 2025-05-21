@@ -8,7 +8,7 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
 
     const receiverId = searchParams.get("receiverId");
-    console.log(receiverId, typeof receiverId);
+    // console.log(receiverId, typeof receiverId);
 
     const session = await verifyUser();
     if (!session) throw new Error("Unauthorized ! Please Sign In...");
@@ -122,7 +122,7 @@ export async function PATCH(request) {
     if (!session) throw new Error("Unauthorized ! Please Sign In...");
 
     const chatId = (await request.json()).chatId;
-    console.log(chatId);
+    // console.log(chatId);
 
     if (!chatId)
       return NextResponse.json({ error: "ChatId not found" }, { status: 404 });

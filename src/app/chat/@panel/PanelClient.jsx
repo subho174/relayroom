@@ -21,12 +21,11 @@ const PanelClient = ({ pastChats }) => {
     setisPanelOpen,
     hadPastChatsWith,
     sethadPastChatsWith,
-    setisMsgFetching
+    setisMsgFetching,
   } = useAppContext();
-  console.log(pastChats);
 
-  console.log(userData);
-
+  // console.log(pastChats);
+  // console.log(userData);
   const [userToFind, setuserToFind] = useState("");
   let chatId;
   const matchedUsers = useMemo(() => {
@@ -57,7 +56,7 @@ const PanelClient = ({ pastChats }) => {
   }, [userData]);
 
   const startChat = async (user) => {
-    console.log(user);
+    // console.log(user);
     setisPanelOpen(false);
     setmessages([]);
     setreceiverName(user.username);
@@ -73,7 +72,7 @@ const PanelClient = ({ pastChats }) => {
       .get("/api/chat", { params: { receiverId: user._id } })
       .then((res) => {
         console.log(res);
-        
+
         // TODO:
         // setup middleware
         // complete startChat;
@@ -81,7 +80,6 @@ const PanelClient = ({ pastChats }) => {
         setchatId(chatId);
 
         if (res.data.message === "Old Chat found") {
-
           res.data.data.messages.forEach((m) => {
             setmessages((prev) => [
               ...prev,
@@ -97,7 +95,7 @@ const PanelClient = ({ pastChats }) => {
         }
       })
       .catch((err) => console.log(err));
-setisMsgFetching(false)
+    setisMsgFetching(false);
     await axios
       .patch("/api/chat", { chatId })
       .then((res) => {
@@ -127,7 +125,7 @@ setisMsgFetching(false)
             isSmallScreen ? "" : "justify-items-center"
           }`}
         >
-          <p className="text-2xl font-semibold"> Pingdesk</p>
+          <p className="text-3xl font-bold">RelayRoom</p>
         </div>
         <form className="flex items-center mt-4">
           <div className="relative w-full">

@@ -1,6 +1,7 @@
 import { Buttons } from "../components/Button";
 import verifyUser from "../components/verifyUser";
 import { redirect } from "next/navigation";
+// import HomeLink from '../components/HomeLink';
 
 export default async function Home() {
   const session = await verifyUser();
@@ -20,6 +21,7 @@ export default async function Home() {
         </p>
         <Buttons />
       </div>
+      {/* <HomeLink /> */}
     </section>
   );
 }

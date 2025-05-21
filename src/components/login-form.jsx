@@ -10,6 +10,7 @@ import { useTransition } from "react";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
+import HomeLink from "@/src/components/HomeLink.jsx";
 
 export function LoginForm({ className, ...props }) {
   const [isPending, startTransition] = useTransition();
@@ -108,6 +109,7 @@ export function LoginForm({ className, ...props }) {
               </div>
             </div>
           </form>
+          <HomeLink />
         </CardContent>
       </Card>
     </div>

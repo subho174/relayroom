@@ -29,7 +29,7 @@ const ChatInterFaceClient = ({ users }) => {
       allUsers.push({ _id, username });
     });
   }, []);
-  console.log(receiverName);
+  // console.log(receiverName);
 
   const [isMsgSent, setisMsgSent] = useState(true);
 
@@ -55,7 +55,7 @@ const ChatInterFaceClient = ({ users }) => {
           isViewed,
           postedAt,
         };
-        console.log("message for you");
+        // console.log("message for you");
 
         sethadPastChatsWith((prev) =>
           prev.map((chat) =>
@@ -124,15 +124,6 @@ const ChatInterFaceClient = ({ users }) => {
     };
   }, [chatId]);
 
-  useEffect(() => {
-    if (!socket) return;
-    socket.on("newConnection", (props) => {
-      console.log(props);
-    });
-    return () => {
-      socket.off("newConnection");
-    };
-  }, [socket]);
 
   const submit = (e) => {
     e.preventDefault();
@@ -258,13 +249,12 @@ const ChatInterFaceClient = ({ users }) => {
               )}
               {/* <div ref={bottomRef} /> */}
             </section>
-            {/* </section> */}
-            <footer className="mb-4 p-[25px] pt-0 lg:p-[0px_80px_10px_80px] xl:p-[0px_140px_10px_140px]">
+            <footer className="mb-2 px-5 lg:p-[0px_20px_10px_20px] xl:p-[0px_110px_10px_110px]">
               <form onSubmit={submit}>
                 <label htmlFor="chat" className="sr-only">
                   Your message
                 </label>
-                <div className="flex items-center px-3 py-5 rounded-lg border-1 border-[#ffa100]">
+                <div className="flex items-center p-4 rounded-lg border-1 border-[#ffa100]">
                   {/* <label htmlFor="file-attachment" className="style">
                     <i className="fa-solid fa-paperclip"></i>
                   </label>
@@ -286,7 +276,7 @@ const ChatInterFaceClient = ({ users }) => {
                     id="chat"
                     rows="1"
                     name="message"
-                    className="block mx-4 p-2.5 w-full text-sm bg-black rounded-lg border-b-2 border-b-[#ffa100] outline-none"
+                    className="block ml-1 mr-4 p-2.5 h-14 w-full text-sm bg-black border-b-2 border-b-[#ffa100]  rounded-lg outline-none"
                     placeholder="Your message..."
                     onChange={(e) => setmessage(e.target.value)}
                     value={message}
@@ -294,7 +284,7 @@ const ChatInterFaceClient = ({ users }) => {
                   ></textarea>
                   <button
                     type="submit"
-                    className="inline-flex justify-center p-2 rounded-full cursor-pointer hover:bg-[#fbaf03]"
+                    className="inline-flex justify-center p-2 rounded-full border-1 cursor-pointer hover:bg-[#fbaf03] hover:border-[#fbaf03]"
                   >
                     <svg
                       className="w-5 h-5 rotate-90 rtl:-rotate-90"
