@@ -19,9 +19,41 @@ export function AppProvider({ children }) {
   const [messages, setmessages] = useState([]);
   const [isMsgFetching, setisMsgFetching] = useState(false);
 
+  // useEffect(() => {
+  //   const connectSocket = async () => {
+  //     if (!user) return;
+  //     const res = await fetch("/api/get-token");
+  //     const data = await res.json();
+
+  //     if (!data.token) {
+  //       console.error("Token not received");
+  //       return;
+  //     }
+
+  //     const socket = io("http://localhost:3000", {
+  //       path: "/api/socket",
+  //       query: { user: user.username },
+  //       extraHeaders: {
+  //         authorization: `Bearer ${data.token}`,
+  //       },
+  //     });
+
+  //     socket.on("connect", () => {
+  //       console.log("Socket connected", socket);
+  //       setSocket(socket);
+  //     });
+
+  //     socket.on("connect_error", (err) => {
+  //       console.error("Socket connection error:", err.message);
+  //     });
+  //   };
+
+  //   connectSocket();
+  // }, [user]);
   useEffect(() => {
     const connectSocket = async () => {
       if (!user) return;
+
       const res = await fetch("/api/get-token");
       const data = await res.json();
 
@@ -30,22 +62,26 @@ export function AppProvider({ children }) {
         return;
       }
 
-      const socket = io("http://localhost:3000", {
-        path: "/api/socket",
+      const newSocket = io("https://relayroom.onrender.com", {
+        path: "/socket.io", // default
         query: { user: user.username },
         extraHeaders: {
           authorization: `Bearer ${data.token}`,
         },
       });
 
-      socket.on("connect", () => {
-        console.log("Socket connected", socket);
-        setSocket(socket);
+      newSocket.on("connect", () => {
+        console.log("Socket connected", newSocket.id);
+        setSocket(newSocket);
       });
 
-      socket.on("connect_error", (err) => {
+      newSocket.on("connect_error", (err) => {
         console.error("Socket connection error:", err.message);
       });
+
+      // return () => {
+      //   newSocket.disconnect();
+      // };
     };
 
     connectSocket();
@@ -79,7 +115,7 @@ export function AppProvider({ children }) {
         messages,
         setmessages,
         isMsgFetching,
-        setisMsgFetching
+        setisMsgFetching,
       }}
     >
       {children}

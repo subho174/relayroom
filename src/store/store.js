@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { useSession } from "next-auth/react";
 
 const panelStore = (set) => ({
   isPanelOpen: true,
@@ -13,9 +12,7 @@ const panelStore = (set) => ({
     }));
   },
   closePanel: () => {
-    set((state) => ({
-      isPanelOpen: false,
-    }));
+    set({ isPanelOpen: false });
   },
   sethadPastChatsWith: (updater) => {
     set((state) => ({
@@ -30,7 +27,7 @@ const panelStore = (set) => ({
   // },
 });
 
-const chatStore = (set,get) => ({
+const chatStore = (set) => ({
   messages: [],
   message: null,
   receiverName: null,
@@ -43,14 +40,14 @@ const chatStore = (set,get) => ({
     }));
   },
   setreceiverName: (name) => {
-    set({receiverName: name})
+    set({ receiverName: name });
   },
   setreceiverId: (id) => {
-    set({receiverId: id})
+    set({ receiverId: id });
   },
   setchatId: (id) => {
-    set({chatId: id})
-  }
+    set({ chatId: id });
+  },
 });
 
 const socketStore = (set) => ({

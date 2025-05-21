@@ -115,7 +115,7 @@
 import { Server } from "socket.io";
 import { createServer } from "http";
 import dotenv from "dotenv";
-import {getToken} from "next-auth/jwt"; // or use custom JWT verify
+import { getToken } from "next-auth/jwt"; // or use custom JWT verify
 
 dotenv.config();
 const PORT = process.env.PORT || 10000;
@@ -124,7 +124,8 @@ const httpServer = createServer();
 const io = new Server(httpServer, {
   cors: {
     // origin: "https://relayroom.vercel.app", // change for production
-    origin: "http://localhost:3000",
+    // origin: "http://localhost:3000",
+    origin: ["https://relayroom.vercel.app", "http://localhost:3000"],
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -158,20 +159,23 @@ io.on("connection", (socket) => {
   userSocketMap[user] = socket.id;
   console.log("User connected:", user);
 
-  socket.on("chat", ({ messageId, senderId, message, receiver, isViewed, postedAt }) => {
-    const receiverId = userSocketMap[receiver];
-    if (receiverId) {
-      socket.to(receiverId).emit("chat", {
-        messageId,
-        senderId,
-        message,
-        isViewed,
-        postedAt,
-      });
-    } else {
-      console.log(`${receiver} not connected now`);
+  socket.on(
+    "chat",
+    ({ messageId, senderId, message, receiver, isViewed, postedAt }) => {
+      const receiverId = userSocketMap[receiver];
+      if (receiverId) {
+        socket.to(receiverId).emit("chat", {
+          messageId,
+          senderId,
+          message,
+          isViewed,
+          postedAt,
+        });
+      } else {
+        console.log(`${receiver} not connected now`);
+      }
     }
-  });
+  );
 
   socket.on("message-viewed", ({ receiver }) => {
     const receiverId = userSocketMap[receiver];
