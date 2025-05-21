@@ -126,6 +126,10 @@ const httpServer = createServer((req, res) => {
     res.writeHead(200, { "Content-Type": "text/plain" });
     res.end("Socket server is alive");
   }
+  else {
+  res.writeHead(404);
+  res.end();
+  }
 });
 
 const io = new Server(httpServer, {
