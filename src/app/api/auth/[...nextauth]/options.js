@@ -25,14 +25,16 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
         isLoggingIn: { type: Boolean },
       },
-      async authorize({ username, email, password, isLoggingIn
-        // , callbackUrl 
+      async authorize({
+        username,
+        email,
+        password,
+        isLoggingIn,
+        // , callbackUrl
       }) {
         await connectDB();
-        console.log(username, email, password, typeof password, isLoggingIn);
         try {
           let user = await User.findOne({ email }).select("+password");
-          console.log(user);
           if (isLoggingIn === "true") {
             if (!user) throw new Error("User not found");
             const isPasswordCorrect = await bcrypt.compare(
@@ -57,12 +59,23 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    // TODO: Test Sign Up feature with providers
-    async signIn({ user,
-       // account, profile, email, credentials 
-      }) {
+    async signIn({
+      user,
+      account,
+      // , profile, email, credentials
+    }) {
       await connectDB();
+      
       try {
+        //NOTE: 
+        // both authorize() and signIn() runs in credentials login, only signIn() runs in providers login
+
+        //ORDER: 
+        // for credentials login; authorize(), signIn(), jwt(), session()
+        // for providers login; signIn(), jwt(), session()
+
+        if (account.provider === "credentials") return true;
+
         const cookieStore = await cookies();
         const authType = cookieStore.get("authType")?.value;
         if (!authType) throw new Error("Type of Authentication not found");
@@ -86,21 +99,28 @@ export const authOptions = {
     // async redirect({ url, baseUrl }) {
     //   return baseUrl;
     // },
-    async session({ session,token
+    async session({
+      session,
+      token,
       //  user
-     }) {
+    }) {
       if (token) {
         session.user._id = token._id;
         session.user.username = token.username;
+        session.user.email = token.email
+        // session.token = token
       }
       return session;
     },
-    async jwt({ token, user,
-       // account, profile, isNewUser
-      }) {
+    async jwt({
+      token,
+      user,
+      // account, profile, isNewUser
+    }) {
       if (user) {
         token._id = user._id?.toString();
         token.username = user.username;
+        token.email = user.email;
       }
       return token;
     },
@@ -112,5 +132,8 @@ export const authOptions = {
   session: {
     strategy: "jwt",
   },
+//   jwt: {
+//   encryption: false,
+// },
   secret: process.env.NEXTAUTH_SECRET,
 };

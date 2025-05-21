@@ -34,7 +34,7 @@ const chatSchema = new Schema(
         ref: "User",
       },
     ],
-    // messages: [messageSchema],
+    messages: [messageSchema],
   }
 );
 

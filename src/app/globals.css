@@ -76,6 +76,7 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --custom-bg: #fbaf03;
 }
 
 .dark {
@@ -118,5 +119,48 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+.chat-box::-webkit-scrollbar,
+.historyPanel::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+.chat-box,
+.historyPanel {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+@layer components {
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .fade-in {
+    animation: fade-in 3s ease-out forwards;
+  }
+
+  .labels {
+    @apply flex flex-col;
+  }
+  input {
+    @apply outline-none;
+  }
+  .inputStyle {
+    @apply bg-black rounded-lg text-white focus:ring-2 focus:ring-[#ffa100] block w-full p-2.5;
+  }
+  .div1 {
+    @apply flex items-center gap-6 p-2 hover:bg-gray-800 cursor-pointer rounded-xl;
+  }
+  .div2 {
+    @apply w-15 h-12 bg-[#fbaf03] text-black flex items-center justify-center rounded-full;
   }
 }
