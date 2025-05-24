@@ -54,7 +54,6 @@ const PanelClient = ({ pastChats }) => {
           },
         ];
         sethadPastChatsWith((prev) => [...prev, ...chattedwith]);
-        // sethadPastChatsWith([...chattedwith]);
       });
     }
   }, [userData]);

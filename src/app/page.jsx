@@ -4,8 +4,8 @@ import { redirect } from "next/navigation";
 // import HomeLink from '../components/HomeLink';
 
 export default async function Home() {
-  const session = await verifyUser();
-  if (session) redirect("/chat");
+  // const session = await verifyUser();
+  // if (session) redirect("/chat");
   return (
     <section className="bg-black py-20 h-screen content-center">
       <div className="max-w-4xl mx-auto text-center justify-items-center px-6 fade-in">
