@@ -44,6 +44,7 @@ export default async function PanelServer() {
     ]);
     return <PanelClient pastChats={JSON.parse(JSON.stringify(pastChats))} />;
   } catch (error) {
+    console.log(error);
     throw new Error("Some error occured", error);
   }
 }

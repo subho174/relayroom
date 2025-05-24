@@ -30,11 +30,14 @@ const PanelClient = ({ pastChats }) => {
   let chatId;
   const matchedUsers = useMemo(() => {
     if (!userToFind) return [];
-    return allUsers.filter((user) => user.username.includes(userToFind));
+    return allUsers.filter((user) =>
+      user.username.includes(userToFind.toLowerCase())
+    );
   }, [userToFind]);
 
   useEffect(() => {
     if (pastChats && userData && pastChats.length != 0) {
+      sethadPastChatsWith([]);
       pastChats.forEach((chat) => {
         let chattedwith = chat.members.filter((m) => {
           return m._id !== userData._id;
@@ -51,6 +54,7 @@ const PanelClient = ({ pastChats }) => {
           },
         ];
         sethadPastChatsWith((prev) => [...prev, ...chattedwith]);
+        // sethadPastChatsWith([...chattedwith]);
       });
     }
   }, [userData]);
