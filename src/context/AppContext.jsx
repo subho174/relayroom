@@ -64,7 +64,7 @@ export function AppProvider({ children }) {
 
       const newSocket = io("https://relayroom.onrender.com", {
         path: "/socket.io", // default
-        query: { user: user.username },
+        query: { user: user.username || user.name },
         extraHeaders: {
           authorization: `Bearer ${data.token}`,
         },

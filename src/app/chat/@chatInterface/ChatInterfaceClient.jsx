@@ -83,13 +83,7 @@ const ChatInterFaceClient = ({ users }) => {
                 : chat
             )
           );
-          // Toast.fire({
-          //   icon: "info",
-          //   title: "New Message",
-          // });
-          toast.info("New Message", {
-            position: "top-right",
-          });
+          toast("New message", { position: "top-right" });
         }
       }
     );

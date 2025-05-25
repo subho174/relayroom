@@ -6,6 +6,8 @@ import PanelSkeleton from "./PanelSkeleton";
 import useFetchUser from "../../../components/fetchUser";
 import { useAppContext } from "../../../context/AppContext";
 import { getModifiedTime } from "../../../components/getTime";
+import { RefreshCard } from "../../../components/RefreshCard";
+import { toast } from "sonner";
 
 const PanelClient = ({ pastChats }) => {
   const userData = useFetchUser();
@@ -130,35 +132,38 @@ const PanelClient = ({ pastChats }) => {
         >
           <p className="text-3xl font-bold">RelayRoom</p>
         </div>
-        <form className="flex items-center mt-4">
-          <div className="relative w-full">
-            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-              <svg
-                className="w-4 h-4"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                />
-              </svg>
+        <div className="flex justify-between items-center mt-4">
+          <form className="flex items-center w-9/10">
+            <div className="relative w-full">
+              <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg
+                  className="w-4 h-4"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                  />
+                </svg>
+              </div>
+              <input
+                type="text"
+                // className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 "
+                className="bg-black border-b-2 border-b-[#ffa100] text-sm rounded-lg block w-full ps-10 p-2.5"
+                onChange={(e) => setuserToFind(e.target.value)}
+                placeholder="Search global users"
+                required
+              />
             </div>
-            <input
-              type="text"
-              // className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 "
-              className="bg-black border-b-2 border-b-[#ffa100] text-sm rounded-lg block w-full ps-10 p-2.5"
-              onChange={(e) => setuserToFind(e.target.value)}
-              placeholder="Search global users"
-              required
-            />
-          </div>
-        </form>
+          </form>
+          <RefreshCard />
+        </div>
       </div>
       {/* Chat History and Search Results */}
       <div className="historyPanel h-full overflow-y-auto p-[2px_20px] border-t-1 border-gray-300 pt-4">
@@ -184,9 +189,15 @@ const PanelClient = ({ pastChats }) => {
                     user.totalUnseenMsgs > 0 ? "bg-gray-800" : ""
                   }`}
                   key={i}
-                  onClick={() => startChat(user)}
+                  onClick={() =>
+                    socket
+                      ? startChat(user)
+                      : toast("Please wait...", { position: "top-right" })
+                  }
                 >
-                  <div className="div2">{user.username[0].toUpperCase()}</div>
+                  <div className="div2">
+                    {user.username?.at(0).toUpperCase()}
+                  </div>
                   <div className="flex flex-col w-full">
                     <div className="flex justify-between items-center">
                       <p className="text-xl">{user.username}</p>

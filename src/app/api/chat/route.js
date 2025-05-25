@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { Chat } from "../../../model/chat.model";
 import verifyUser from "../../../components/verifyUser";
+import { getToken } from "next-auth/jwt";
 
 export async function GET(request) {
   // checkIfOldChatExists
@@ -34,7 +35,7 @@ export async function GET(request) {
   }
 }
 
-export async function POST(request) {
+export async function POST(req) {
   try {
     const session = await verifyUser();
     if (!session) throw new Error("Unauthorized ! Please Sign In...");
@@ -43,7 +44,7 @@ export async function POST(request) {
     // const body = Object.fromEntries(formdata.entries());
     // let { receiverId, message } = body;
     
-    const body = await request.json();
+    const body = await req.json();
     const { receiverId, message } = body;
 
     if (!(message && receiverId))
@@ -111,6 +112,7 @@ export async function POST(request) {
       { status: 201 }
     );
   } catch (error) {
+    console.log(error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
