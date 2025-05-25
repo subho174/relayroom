@@ -65,12 +65,11 @@ export const authOptions = {
       // , profile, email, credentials
     }) {
       await connectDB();
-      
       try {
-        //NOTE: 
+        //NOTE:
         // both authorize() and signIn() runs in credentials login, only signIn() runs in providers login
 
-        //ORDER: 
+        //ORDER:
         // for credentials login; authorize(), signIn(), jwt(), session()
         // for providers login; signIn(), jwt(), session()
 
@@ -89,7 +88,10 @@ export const authOptions = {
             email: user.email,
           });
           user._id = newUser._id;
-        } else if (!existingUser) throw new Error("User not found");
+        } else {
+          if (!existingUser) throw new Error("User not found");
+          user._id = existingUser._id;
+        }
 
         return true;
       } catch (error) {
@@ -107,7 +109,7 @@ export const authOptions = {
       if (token) {
         session.user._id = token._id;
         session.user.username = token.username;
-        session.user.email = token.email
+        session.user.email = token.email;
         // session.token = token
       }
       return session;
@@ -132,8 +134,8 @@ export const authOptions = {
   session: {
     strategy: "jwt",
   },
-//   jwt: {
-//   encryption: false,
-// },
+  //   jwt: {
+  //   encryption: false,
+  // },
   secret: process.env.NEXTAUTH_SECRET,
 };

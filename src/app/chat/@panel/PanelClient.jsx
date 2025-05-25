@@ -33,7 +33,7 @@ const PanelClient = ({ pastChats }) => {
   const matchedUsers = useMemo(() => {
     if (!userToFind) return [];
     return allUsers.filter((user) =>
-      user.username.includes(userToFind.toLowerCase())
+      user.username.toLowerCase().includes(userToFind.toLowerCase())
     );
   }, [userToFind]);
 

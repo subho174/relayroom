@@ -55,7 +55,6 @@ const ChatInterFaceClient = ({ users }) => {
           isViewed,
           postedAt,
         };
-        // console.log("message for you");
 
         sethadPastChatsWith((prev) =>
           prev.map((chat) =>
