@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { Chat } from "../../../model/chat.model";
 import verifyUser from "../../../components/verifyUser";
-import { getToken } from "next-auth/jwt";
 
 export async function GET(request) {
   // checkIfOldChatExists
