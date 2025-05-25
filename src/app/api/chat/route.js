@@ -38,6 +38,7 @@ export async function POST(req) {
   try {
     const session = await verifyUser();
     if (!session) throw new Error("Unauthorized ! Please Sign In...");
+console.log(session);
 
     // let formdata = await request.formData();
     // const body = Object.fromEntries(formdata.entries());
